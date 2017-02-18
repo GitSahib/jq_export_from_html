@@ -5,25 +5,16 @@
 	//dowloads table as csv
 	//############################################
 	$.fn.extend({
-		ExportToFile : function(options){
-		var data  = [];
-		var row   = [];
+		ExportToFile : function(options){		
 		var defaults = {
 			fileName : this.attr('id') || this.attr('class') || 'Export',
 			type     : 'csv'
 		}
 		options = $.extend(defaults,options);
-		this.find("tr").each(function(index,tr){
-			row = [];
-			$(tr).find("th,td").each(function(index,td){
-				row.push($(td).text());
-			});
-			data.push(row.join(','));
-		});
 		switch(options.type)
 		{
 			case 'csv':
-				csv = data.join('\n');
+				csv = $(this).TableData({joinRows:1}).join('\n');
 				var fileName = options.fileName + '.' + options.type;
 				if (window.navigator.msSaveBlob) { // IE 10+
 				    //alert('IE' + csv);
@@ -36,7 +27,6 @@
 				    link.href = csvData;
 				    link.click();
 				}
-				
 				break;
 				//To do implement other types
 		}
@@ -44,5 +34,29 @@
 	}});
 	//############################################
 	//end of export function
+	//############################################
+	//############################################
+	//Capture TableData
+	//############################################
+	$.fn.extend({
+		TableData:function(options)
+		{
+			var defaults  = {
+				joinRows:0
+			};
+			options   = $.extend(defaults,options);
+			var data  = [];
+			this.find("tr").each(function(index,tr){
+				var row   = [];
+				$(tr).find("th,td").each(function(index,td){
+					row.push($(td).text());
+				});
+				data.push(options.joinRows ? row.join(','):row);
+			});
+			return data;
+		}
+	});
+	//############################################
+	//end of TableData function
 	//############################################
 })(jQuery);
