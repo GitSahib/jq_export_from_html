@@ -7,7 +7,7 @@ But this is just an Idea, feel free to contribute
 
 ##Include the file to your html page after you inclue jquery.
 	
-	<script type='text/javascript' src='https://raw.githubusercontent.com/GitSahib/jquery.export/master/jquery.export.js'></script
+	<script type='text/javascript' src='https://cdn.rawgit.com/GitSahib/jquery.export/d93f7950/jquery.export.js'></script
 ##Using id selector
 
 	$("#tableid").ExportToFile({fileName:'test',type:'csv'});
