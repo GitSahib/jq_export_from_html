@@ -24,11 +24,19 @@
 		{
 			case 'csv':
 				csv = data.join('\n');
-				var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-				var link = document.createElement("a");
-				link.download = options.fileName + '.' + options.type;
-				link.href = csvData;
-				link.click();
+				var fileName = options.fileName + '.' + options.type;
+				if (window.navigator.msSaveBlob) { // IE 10+
+				    //alert('IE' + csv);
+				    window.navigator.msSaveOrOpenBlob(new Blob([csv], {type: "text/plain;charset=utf-8;"}), fileName)
+				}
+				else{
+				    var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+				    var link = document.createElement("a");
+				    link.download = fileName;
+				    link.href = csvData;
+				    link.click();
+				}
+				
 				break;
 				//To do implement other types
 		}
